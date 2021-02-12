@@ -1,4 +1,4 @@
-﻿using System;
+ using System;
 using System.Diagnostics;
 using System.ComponentModel;
 using System.Collections.Specialized;
@@ -170,7 +170,17 @@ namespace DevZest.Windows.Docking.Primitives
                 foreach (FloatingWindow floatingWindow in DockControl.FloatingWindows)
                 {
                     NativeFloatingWindow nativeWindow = NativeFloatingWindow.GetNativeFloatingWindow(floatingWindow);
-                    SetStartMousePosition(nativeWindow, nativeWindow.PointFromScreen(_startMousePoint));
+                    Point pointFromScreen = _startMousePoint;
+                    try
+                    {
+	                    pointFromScreen = nativeWindow.PointFromScreen(_startMousePoint);
+                    }
+                    catch (Exception e)
+                    {
+	                    Debug.WriteLine(@"pointFromScreen: " + pointFromScreen);
+	                    Debug.WriteLine(e);
+                    }
+                    SetStartMousePosition(nativeWindow, pointFromScreen);
                 }
             }
 
